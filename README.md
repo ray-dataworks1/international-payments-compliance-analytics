@@ -87,4 +87,5 @@ Clarity: Single source of truth for BI, stakeholder-ready
 🎤 Author
 Rachael Ogungbose
 Junior Data Analytics Engineer | Fintech, Compliance, Cloud
-2nd-gen immigrant based in the UK, passionate about systems, equity, and financial empowerment for immigrant communities.
+
+As a 2nd-gen immigrant based in the UK, I'm passionate about systems, equity, and financial empowerment for immigrant communities.
