@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+*.env
+.venv/
+venv/
+Pipfile.lock
+poetry.lock
+
+# dbt
+dbt_modules/
+dbt_packages/
+profiles.yml
+target/
+logs/
+manifest.json
+run_results.json
+dbt.log
+
+# Data
+*.parquet
+data/
+test_data/
+.DS_Store
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+*.out
+
+# json files
+*.json
+
+# System
+.DS_Store
+Thumbs.db
+
+# Secrets
+*.key
+*.pem
+*.crt
+.secrets/
+.envrc
