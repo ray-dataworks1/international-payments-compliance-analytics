@@ -29,6 +29,8 @@ entity Countries {
  * full_name : varchar(100)
  * dob : date
  * address : varchar(255)
+ * bvn: int
+ * nin: int
  * country_of_residence : varchar(3) (FK to Countries)
  * kyc_status : varchar(20)
  * created_at : timestamp with time zone

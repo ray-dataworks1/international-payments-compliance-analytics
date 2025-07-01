@@ -1,0 +1,7 @@
+id,check_type
+1,AML Threshold
+2,PEP Screening
+3,Sanctions List
+4,KYC Check
+5,Geo IP Mismatch
+6,Manual Review
