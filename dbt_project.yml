@@ -4,30 +4,30 @@ config-version: 2
 
 profile: 'intl_payments_compliance'
 
-source-paths: ["models"]
+model-paths: ["models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
-data-paths: ["data"]
+seed-paths: ["data"]
 macro-paths: ["macros"]
 target-path: "target"
 clean-targets: ["target", "dbt_modules"]
 
 seeds:
-  +schema: INTL_PAYMENTS_COMPLIANCE.RAW
+  +schema: RAW
   +quote_columns: false
 
 models:
   intl_payments_compliance:
-    +schema: INTL_PAYMENTS_COMPLIANCE.RAW
+    +schema: RAW
     staging:
-      +schema: INTL_PAYMENTS_COMPLIANCE.STAGING
+      +schema: STAGING
       +materialized: view
       +on_schema_change: append_new_columns
     int:
-      +schema: INTL_PAYMENTS_COMPLIANCE.INTERMEDIATE
+      +schema: INTERMEDIATE
       +materialized: table
       +on_schema_change: append_new_columns
     marts:   
-      +schema: INTL_PAYMENTS_COMPLIANCE.MART
+      +schema: MART
       +materialized: table
       +on_schema_change: append_new_columns
