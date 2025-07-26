@@ -17,17 +17,12 @@ seeds:
   +quote_columns: false
 
 models:
-  intl_payments_compliance:
-    +schema: RAW
     staging:
-      +schema: STAGING
       +materialized: view
       +on_schema_change: append_new_columns
-    int:
-      +schema: INTERMEDIATE
+    intermediate:
       +materialized: table
       +on_schema_change: append_new_columns
-    marts:   
-      +schema: MART
+    marts:
       +materialized: table
       +on_schema_change: append_new_columns

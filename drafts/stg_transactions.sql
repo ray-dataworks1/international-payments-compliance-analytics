@@ -1,0 +1,5 @@
+-- with raw as (
+--     select
+--     *
+--     from {{ source('raw', 'transactions') }}
+-- ),
