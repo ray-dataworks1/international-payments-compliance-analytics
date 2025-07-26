@@ -1,36 +1,33 @@
+name: 'international_payments_compliance_analytics'
+version: '1.0'
+config-version: 2
 
-# Name your project! Project names should contain only lowercase characters
-# and underscores. A good package name should reflect your organization's
-# name or the intended use of these models
-name: 'intl_payments_compliance'
-version: '1.0.0'
-
-# This setting configures which "profile" dbt uses for this project.
 profile: 'intl_payments_compliance'
 
-# These configurations specify where dbt should look for different types of files.
-# The `model-paths` config, for example, states that models in this project can be
-# found in the "models/" directory. You probably won't need to change these!
-model-paths: ["models"]
+source-paths: ["models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
-seed-paths: ["seeds"]
+data-paths: ["data"]
 macro-paths: ["macros"]
-snapshot-paths: ["snapshots"]
+target-path: "target"
+clean-targets: ["target", "dbt_modules"]
 
-clean-targets:         # directories to be removed by `dbt clean`
-  - "target"
-  - "dbt_packages"
+seeds:
+  +schema: INTL_PAYMENTS_COMPLIANCE.RAW
+  +quote_columns: false
 
-
-# Configuring models
-# Full documentation: https://docs.getdbt.com/docs/configuring-models
-
-# In this example config, we tell dbt to build all models in the example/
-# directory as views. These settings can be overridden in the individual model
-# files using the `{{ config(...) }}` macro.
 models:
   intl_payments_compliance:
-    # Config indicated by + and applies to all files under models/example/
-    example:
+    +schema: INTL_PAYMENTS_COMPLIANCE.RAW
+    staging:
+      +schema: INTL_PAYMENTS_COMPLIANCE.STAGING
       +materialized: view
+      +on_schema_change: append_new_columns
+    int:
+      +schema: INTL_PAYMENTS_COMPLIANCE.INTERMEDIATE
+      +materialized: table
+      +on_schema_change: append_new_columns
+    marts:   
+      +schema: INTL_PAYMENTS_COMPLIANCE.MART
+      +materialized: table
+      +on_schema_change: append_new_columns
