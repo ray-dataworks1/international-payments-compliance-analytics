@@ -1,5 +1,0 @@
--- with raw as (
---     select
---     *
---     from {{ source('raw', 'currencies') }}
--- ),
