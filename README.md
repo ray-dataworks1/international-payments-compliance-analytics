@@ -89,3 +89,11 @@ Rachael Ogungbose
 Junior Data Analytics Engineer | Fintech, Compliance, Cloud
 
 As a 2nd-gen immigrant based in the UK, I'm passionate about systems, equity, and financial empowerment for immigrant communities.
+
+
+
+### Future Enhancements
+- Full staging, intermediate and mart model deployment coming soon after more testing, debugging and iteration.
+- Dashboard mockup with stakeholder friendly visuals and storytelling
+- Automation via cron jobs or Python/Airflow
+- Performance optimisation through incremental modelling
