@@ -1,0 +1,110 @@
+-- stg_customers has columns:
+-- customer_id_raw,
+-- customer_id,
+-- full_name,
+-- dob,
+-- address,
+-- phone_number,
+-- bvn,
+-- nin,
+-- country_of_residence,
+-- kyc_status,
+-- created_at,
+-- for_review,
+-- id_issue
+
+
+-- stg_accounts has columns:
+    -- raw_account_id,
+    -- account_id,
+    -- account_number,
+    -- country_code,
+    -- customer_id,
+    -- is_active,
+    -- created_at,
+    -- for_review
+
+-- stg_currencies has columns:
+    -- currency_id_raw,
+    -- currency_id,
+    -- name,
+    -- code 
+
+
+
+-- For customer risk scores, we need a scoring system that weights, kyc_status, for_review, created_at (recency/account age), and country_of_residence (high risk countries)
+-- For account risk scores, we need a scoring system that weights for_review, is_active status, created_at (recency/account age)
+-- Currency risk can be static based on known high risk currencies and even currencies that are more unstable/flucuating or that hinge on the dollar/pound, etc.
+
+{{ config(
+    materialized='table',
+    tags=['risk','dim']
+) }}
+
+with combined_currency_customer_account_data as (
+    select
+        c.customer_id,
+        cc.currency_id,
+        cc.code as currency_code,
+        cc.name as currency_name,
+        c.kyc_status,
+        c.customer_for_review,
+        c.country_of_residence,
+        c.customer_created_at,
+        a.is_active,
+        a.account_for_review,
+        a.account_created_at
+    from stg_customers c
+    left join stg_accounts a
+    on c.customer_id = a.customer_id
+    left join stg_currencies cc
+    on cc.code = a.country_code
+),
+
+scored as (
+    select
+        *,
+        case 
+            when kyc_status = 'verified' then 1
+            when kyc_status = 'pending' then 3
+            when kyc_status = 'unverified' then 5
+            else 3
+        end as kyc_risk_score,
+        case 
+            when customer_for_review = true then 5
+            else 1
+        end as customer_review_risk_score,
+        case 
+            when country_of_residence in ('NG', 'PK', 'AF', 'IR', 'SY', 'YE', 'SD') then 5
+            when country_of_residence in ('IN', 'BR', 'RU', 'MX') then 3
+            else 1
+        end as country_risk_score,
+        case 
+            when is_active = false then 5
+            else 1
+        end as account_active_risk_score,
+        case 
+            when account_for_review = true then 5
+            else 1
+        end as account_review_risk_score
+    from combined_currency_customer_account_data
+)
+
+
+select
+    customer_id,
+    currency_id,
+    currency_code,
+    currency_name,
+    kyc_status,
+    country_of_residence,
+    is_active,
+    -- Risk Scores
+    kyc_risk_score,
+    customer_review_risk_score,
+    country_risk_score,
+    account_active_risk_score,
+    account_review_risk_score,
+    -- Total Risk Score
+    round(((kyc_risk_score + customer_review_risk_score + country_risk_score + account_active_risk_score + account_review_risk_score)::decimal/25) * 100, 2) as total_risk_percentage
+from scored

@@ -1,38 +1,5 @@
 version: 2
 
-sources:
-  - name: raw
-    database: INTL_PAYMENTS_COMPLIANCE
-    schema: RAW
-    tables:
-      - name: customers
-        description: "Raw customer data ingested from source systems"
-        columns:
-          - name: id
-          - name: full_name
-          - name: dob
-          - name: address
-          - name: phone_number
-          - name: bvn
-          - name: nin
-          - name: country_of_residence
-          - name: kyc_status
-          - name: created_at
-      - name: currencies
-        description: "Raw currency data ingested from source systems"
-        columns:
-          - name: id
-          - name: code
-          - name: name
-      - name: accounts
-        description: "Raw account data ingested from source systems"
-        columns:
-          - name: id
-          - name: account_number
-          - name: customer_id
-          - name: country_code
-          - name: is_active
-          - name: created_at
 
 models:
   - name: stg_customers
@@ -106,6 +73,9 @@ models:
         tests:
           - unique
           - not_null
+          - relationships:
+              to: ref('stg_accounts')
+              field: country_code
           - accepted_values:
               values: [
                 AED, AFN, ALL, AMD, AOA, ARS,
@@ -144,6 +114,9 @@ models:
         tests:
           - unique
           - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
       - name: account_number
         description: "Account number, sanitized"
         tests:

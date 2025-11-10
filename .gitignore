@@ -24,6 +24,7 @@ dbt.log
 *.parquet
 test_data/
 .DS_Store
+data_content/
 
 # Jupyter notebooks
 .ipynb_checkpoints/
