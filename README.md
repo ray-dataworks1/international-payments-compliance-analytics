@@ -1,5 +1,39 @@
 # International Payments Compliance Analytics MVP
-**Tech Stack:** Snowflake | dbt | Python (Pandas) | Looker
+
+📌 Project at a Glance
+
+🚀 Tech Stack: Snowflake + dbt + Python (pandas) + Looker
+
+📊 Data Model: 3 staging models, marts in progress
+
+✅ Core Deliverables: Flagged transactions logic, compliance KPIs (volumes by corridor, % flagged)
+
+🔎 Stakeholders: Compliance Officers, Business Ops Managers
+
+🔬 Known Issues / Next Steps
+
+Intermediate/marts → Not all marts fully QA’d; row counts in transactions join need surrogate keys.
+
+Dashboard gap → Looker dashboards not yet committed; next step is screenshots for corridor + risk monitoring.
+
+Test coverage → Current tests limited to not_null; need to add unique (transaction_id) + relationships (account_id/customer_id).
+
+Future Enhancements
+
+Incremental marts for high-volume pipelines
+
+Automation via Airflow/cron jobs
+
+Performance tuning via clustering + partitioning
+
+📝 Lessons Learned
+
+Built end-to-end fintech AE stack: Python → Snowflake → dbt → BI.
+
+Debugged Snowflake/dbt configs (MFA, profiles.yml) to simulate real-world deploy pain.
+
+Framed compliance models with business impact (auditability, risk reduction) in mind.
+
 
 ## 🚀 Project Overview
 
@@ -89,3 +123,13 @@ Rachael Ogungbose
 Junior Data Analytics Engineer | Fintech, Compliance, Cloud
 
 As a 2nd-gen immigrant based in the UK, I'm passionate about systems, equity, and financial empowerment for immigrant communities.
+
+
+
+### Future Enhancements
+- Full staging, intermediate and mart model deployment coming soon after more testing, debugging and iteration.
+- Dashboard mockup with stakeholder friendly visuals and storytelling
+- Automation via cron jobs or Python/Airflow
+- Performance optimisation through incremental modelling
+
+
